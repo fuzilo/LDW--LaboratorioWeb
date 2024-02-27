@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Esta é a nova página de Games</h1>
+    <hr>
+    {#Comentário no Jinja2#}
+
+    <!-- para cada chave e valor dentro do game(dicionário) : itens -->
+    <h1><strong>O jogo do momento</strong></h1>
+    {%for k, v in game.items()%}
+    <details>
+        <summary>{{k}}</summary>
+        <p>{{v}}</p>
+
+    </details>
+
+    {% endfor %}   
+    
+    <p>O jogo {game['Titulo']} tem {{2024 - game[Ano]}} anos.</p>
+
+    <!-- <ul>
+        <li>Título:{{title}}</li>
+        <li>Ano:{{year}}</li>
+        <li>Categoria{{category}}</li>
+    </ul>
+    <p>O jogo {{title}} tem {{2024-year}} anos</p> -->
+
+    <p>Está sendo jogado por:</p>
+     <p>{{players}}</p>
+    <ol>
+        {%for player in players%}
+            <li>{{player}}</li>
+            {%endfor%}
+    </ol>
+</body>
+</html>
