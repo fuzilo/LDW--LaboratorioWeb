@@ -6,11 +6,11 @@ def init_app(app):
     def home():
         return render_template('index.html')
 
-    @app.route('/game')
-    def game():
+    @app.route('/games')
+    def games():
         game = {'Titulo': 'CS-GO',
             'Ano' : 2012,
             'Categoria' : 'FPS-Online'
             }
     jogadores=['Fabio', 'Sequela', 'Tiriça', '3ovo']
-    return render_template('games.html', game = game, players = jogadores)
+    return render_template('games.html', game=game, jogadores = jogadores)
