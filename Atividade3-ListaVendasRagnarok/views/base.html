@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Games</title>
+    <title>Listagem de Lançamento Ragnarok Online</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -17,30 +17,28 @@
               <a class="nav-link" href="{{url_for('home')}}">Home </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('games')}}">Features</a>
+              <a class="nav-link" href="{{url_for('itens')}}">Listagem de Itens</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('cadgames')}}">Pricing</a>
+              <a class="nav-link" href="{{url_for('caditens')}}">Cadastro de Itens</a>
             </li>
 
           </ul>
         </div>
       </nav>
-    <header>
-        <h1 style="text-align: center;">The Games</h1>
-        <hr>
-    </header>
     
-    {% block content%}
-    
-    <!-- Aqui vai o conteúdo da página -->
+      <header>
+        <h1 style ="text-align: Center;">Ragnarok Online</h1>
+      </header>
 
-    {%endblock content%}
+{%block content%}
 
-    <footer>
-        <hr>
-        <p style="text-align: center;">The Games - Todos os direitos reservados.</p>
-    </footer>
+{{%endblock content%}}
+
+<footer>
+    <hr>
+    <p style="text-align: center;">Ragnarok Online - Todos os direitos Reservados. 2024</p>
+</footer>
 
 </body>
 </html>

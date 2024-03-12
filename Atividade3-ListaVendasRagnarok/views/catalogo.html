@@ -1,0 +1,51 @@
+{%extends 'base.html'}
+{%block content%}
+
+<h2>Cadastro de Itens e Preços</h2>
+<hr>
+
+<form action="{{url_for('catalogo')}}" method="POST">
+
+    <label for="">Item</label>
+    <input type="text" name="nome" id="">
+
+    <label for="">Data</label>
+    <input type="text" name="data" id="">
+
+    <label for="">Valor</label>
+    <input type="text" name="valor" id="">
+
+    <label for="">Ultima Aparição na Loja</label>
+    <input type="text" name="ultima" id="">
+
+    <input type="submit" value="Cadastrar">
+    <br>
+<hr>
+
+    <h3>Catálogo de Itens</h3>
+
+    <table border="1">
+        <tr>
+<th>Item</th>
+<th>Data</th>
+<th>Valor</th>
+<th>Ultima Aparição na Loja</th>
+
+        </tr>
+
+    {%for in catalogo%}
+    <tr>
+        <td>{{itens.Item}}</td>
+        <td>{{itens.Data}}</td>
+        <td>{{itens.Valor}}</td>
+        <td>{{itens.Ultima}}</td>
+
+    </tr>
+    {% endfor%}
+
+
+    </table>
+
+</form>
+
+{%endblock content%}
