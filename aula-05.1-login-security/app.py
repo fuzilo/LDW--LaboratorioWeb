@@ -22,6 +22,12 @@ app.config['SECRET_KEY'] = 'thegamessecret'
 # Define o tempo de duração da Sessão
 app.config['PERMANENT_SESSION_LIFETIME'] = 1800
 
+##Define a pasta que receberá arquivos de upload
+app.config['UPLOAD_FOLDER']='static/uploads'
+
+## Defininfo o tamano máximo de um arquivo de upload
+app.config['MAX_CONTENT_LENGHT']=16*1024*1024
+
 # Se for executado diretamente pelo interpretador (arquivo principal)
 if __name__ == '__main__': 
     # Verifica no início da aplicação se o BD já existe. Caso contrário ele criará o BD.

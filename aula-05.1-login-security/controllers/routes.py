@@ -1,10 +1,12 @@
 from flask import render_template, request, url_for, redirect, flash, session
 from markupsafe import Markup
-from models.database import db, Game, Usuario
+from models.database import db, Game, Usuario, Imagem
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import urllib
 import json
+import uuid
+import os
 
 jogadores = []
 jogos = []
@@ -174,3 +176,37 @@ def init_app(app):
             return redirect(url_for('estoque'))
             
         return render_template('editgame.html', g=g)
+    #Definindo os tipos de arquivos permitidos
+    FILES_TYPES = set(['png', 'jpg','jpeg', 'gif'])
+    def arquivos_permitidos(filename):
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in FILES_TYPES
+        #Esta função retornará true ou False, para aceitabilidade do arquivo
+    
+    #Rota para Galeria
+    @app.route('/galeria', methods=['GET','POST'])
+    def galeria():
+        ##Selecionando os nome dos arquivos de imagem no banco
+        imagens = Imagem.query.all()
+        if request.method=='POST':
+            #Captura o arquivo vindo do Formulário
+            file= request.files['file']
+            ##verifica se a extensão do arquivo é permitida
+            if not arquivos_permitidos(file.filename):
+                flash("Arquivo Inválido! Utilize arquivos referentes à imagem", 'danger')
+                return redirect(request.url)
+            #Definir um nome aleatório para o arquivo
+            filename = str(uuid.uuid4())
+            ##Gravando as informações do arquivo no banco
+            img = Imagem(filename)
+            db.session.add(img)
+            db.session.commit()
+            
+            
+            #Salva o arquivo na pasta de uploads
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            print(filename, app.config['UPLOAD_FOLDER'])            
+            flash("Imagem Enviada com Sucesso!", 'success')
+            
+            return redirect(url_for('galeria'))
+            
+        return render_template('galeria.html', imagens = imagens)
