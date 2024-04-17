@@ -87,7 +87,7 @@ def init_app(app):
         return render_template('items.html', interesse=interesse)
     
     @app.route('/catalogo', methods=['GET', 'POST'])
-    @app.toute('/catalogo/delete/<int:id>')
+    @app.route('/catalogo/delete/<int:id>')
     
     def catalogo():
         #Excluindo um registro
@@ -99,7 +99,7 @@ def init_app(app):
         
         #Incluindo novo registro
         if request.method =='POST':
-            novo_item = Catalogo(request.form['item'], request.form['data'], request.form['valor'],request.form['ultima']):
+            novo_item = catalogo(request.form['item'], request.form['data'], request.form['valor'],request.form['ultima'])
             db.sesseion.add(novo_item)
             db.session.commit()
             return redirect(url_for('catalogo'))
@@ -112,11 +112,22 @@ def init_app(app):
             #Valor padrão de registro por página
             per_page=10
 
-            itens_page = Catalogo.query.paginate(page=page, per_page=per_page)
+            itens_page = catalogo.query.paginate(page=page, per_page=per_page)
             return render_template('estoque.html', itens_catalogo=itens_page)
         
-        
+    #Crud - Edição de Dados
+    @app.route('/edit/<int:id>', methods=['GET','POST'])
+    def edit(id):
+            g=catalogo.query.get(id)
 
-            if request.form.get('item') and request.form.get('data') and request.form.get('valor') and request.form.get('ultima'):
-                itens.append({'Item':request.form.get('item'),'Data':request.form.get('data'),'Valor':request.form.get('valor'),'Ultima':request.form.get('ultima')})
-        return render_template('catalogo.html', itens=itens)
+            #Editando o jogo com as informações do formulário
+            if request.method =='POST':
+                g.item = request.form['item']
+                g.data = request.form['data']
+                g.valor = request.form['valor']
+                g.ultima = request.form['ultima']
+                db.session.commit()
+                return redirect(url_for('catalogo'))
+            return render_template('editcatalogo.html', g=g)
+
+
