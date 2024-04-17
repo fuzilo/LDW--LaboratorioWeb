@@ -1,6 +1,6 @@
 from flask import render_template, request, url_for, redirect, flash, session
 from markupsafe import Markup
-from models.database import db, #(importar as classes do banco)
+from models.database import db, Usuario #(importar as classes do banco)
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import urllib
@@ -17,15 +17,48 @@ def init_app(app):
 
     def check_auth():
         routes = ['login', 'caduser', 'home']
-
-
-
-
-
-
+        #Se a rota atual não requer autenticação, permite o acesso
+        if request.endpoint in routes or request.path.startswith('/static/'):
+            return
+        #Se o usuário não estiver autenticado, redireciona-o para a página de login
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+        
+    #Rota Principal
     @app.route('/')
     def home():
         return render_template('index.html')
+    
+    #Rota de Login
+    @app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if request.method == 'POST':
+            email = request.form['email']
+            password = request.form['password']
+            user = Usuario.query.filter_by(email=email).first()
+            senha = Usuario.query.filter_by(password=password).first()
+            if user and check_password_hash(user.password, password):
+                session['user_id'] = user.id
+                session['email'] = user.mail
+                nickname = user.email.split('@')
+                flash(f'Logado com sucesso! Bem vindo {nickname[0]}','success')
+                return redirect(url_for('home'))
+            else: 
+                   
+                flash('Falha no login. Verifique seu nome de usuário e Senha', 'danger')
+
+        return render_template('login.html')        
+
+    #Rota de Logout
+    @app.route('/logout', methods=['GET','POST'])
+    def logout():
+        session.clear()
+        return redirect(url_for('login'))
+    
+    #Rota de Cadastro de Usuário
+    @app.route('/caduser', methods=['GET', 'POST'])
+
+
     
     @app.route('/maisprocurados', methods=['GET', 'POST'])
     def procurados():
