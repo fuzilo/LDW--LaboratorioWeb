@@ -3,49 +3,57 @@
 
 <h2>Cadastro de Itens e Preços</h2>
 <hr>
+<details>
+    <summary>Cadastrar Novo Item</summary>
+    <div class="col-md-6">
+        <form action="{{url_for('catalogo')}}" method="POST">
 
-<form action="{{url_for('catalogo')}}" method="POST">
-
-    <label for="">Item</label>
-    <input type="text" name="item" id="">
-    <br>
-    <label for="">Data</label>
-    <input type="text" name="data" id="">
-    <br>
-    <label for="">Valor</label>
-    <input type="text" name="valor" id="">
-    <br>
-    <label for="">Ultima Aparição na Loja</label>
-    <input type="text" name="ultima" id="">
-    <br>
-    <input type="submit" value="Cadastrar">
-    <br>
+            <input type="text" name="item" placeholder="Item" class="form-control" required>
+            <input type="text" name="data" placeholder="Data atual" class="form-control" required>
+            <input type="text" name="valor" placeholder="Valor Atual" class="form-control" required>
+            <input type="text" name="ultima" placeholder="Ultima aparição em Loja" class="form-control" required>
+            <input type="submit" value="Cadastrar" class="btn btn-success">
+            <input type="reset" value="Limpar" class="btn btn-danger">
+        </form>
+    </div>
+    </details>
 <hr>
 
     <h3>Catálogo de Itens</h3>
 
-    <table border="1">
-        <tr>
-<th>Item</th>
-<th>Data</th>
-<th>Valor</th>
-<th>Ultima Aparição na Loja</th>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Item</th>
+                <th>Data</th>
+                <th>Valor</th>
+                <th>Ultima Aparição na Loja</th>
+                <th style="text-align: center;" colspan:2 >Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itens %}
+            <tr>
+                <td>{{item.Item}}</td>
+                <td>{{item.Data}}</td>
+                <td>{{item.Valor}}</td>
+                <td>{{item.Ultima}}</td>
+                <td style="text-decoration: none; color: orange;"> <a href="{{url_for(edit, id=item.id)}}">Editar</a></td>
+                <td style="text-decoration: nome; color: red;"><a href="{{url_for('catalogo', id=item.id)}}" onclick="return confirm('Deseja mesmo excluir o registro?')">Excluir</a></td>
+            </tr>
+            {% endfor%}
+        </tbody>
+    </table>
 
-        </tr>
+    <p style="text-align: center;">
+        {% if gamesestoque.has_prev %}
+        <a href="{{url_for('catalogo', page=gamesestoque.prev_num)}}"> << Anterior </a>
+        {% endif %}
 
-    {%for item in itens %}
-    <tr>
-        <td>{{item.Item}}</td>
-        <td>{{item.Data}}</td>
-        <td>{{item.Valor}}</td>
-        <td>{{item.Ultima}}</td>
+        {% if gamesestoque.has_next %}
+        <a href="{{url_for('catalogo', page=gamesestoque.next_num)}}">Próximo >></a>
+        {% endif %}
+</p>
 
-    </tr>
-    {% endfor%}
-
-
-</table>
-
-</form>
 
 {%endblock content%}
