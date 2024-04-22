@@ -6,10 +6,10 @@ class Catalogo(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     item = db.Column(db.String(150))
     data = db.Column(db.String(10))
-    valor = db.column(db.String(20))
+    valor = db.Column(db.String(20))
     ultima = db.Column(db.String(10))
     
-    def __init__(self,item,data, valor,ultima):
+    def __init__(self,item,data,valor,ultima):
         self.item = item
         self.data = data
         self.valor = valor
