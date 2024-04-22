@@ -1,6 +1,6 @@
 from flask import render_template, request, url_for, redirect, flash, session
 from markupsafe import Markup
-from models.database import db, Usuario #(importar as classes do banco)
+from models.database import db, Usuario, Catalogo #(importar as classes do banco)
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import urllib
@@ -39,7 +39,7 @@ def init_app(app):
             #senha = Usuario.query.filter_by(password=password).first()
             if user and check_password_hash(user.password, password):
                 session['user_id'] = user.id
-                session['email'] = user.mail
+                session['email'] = user.email
                 nickname = user.email.split('@')
                 flash(f'Logado com sucesso! Bem vindo {nickname[0]}','success')
                 return redirect(url_for('home'))
@@ -70,7 +70,7 @@ def init_app(app):
                 hashed_passsword = generate_password_hash(password, method='scrypt')
                 new_user = Usuario(email=email, password=hashed_passsword)
                 db.session.add(new_user)
-                db.sesseion.commit()
+                db.session.commit()
 
                 flash('Registro realizado com sucesso! Faça o login', 'success')
                 return redirect(url_for('login')) 
@@ -88,23 +88,21 @@ def init_app(app):
     
     @app.route('/catalogo', methods=['GET', 'POST'])
     @app.route('/catalogo/delete/<int:id>')
-    
-    def catalogo():
+    def catalogo(id = None):
         #Excluindo um registro
         if id:
-            item = catalogo.query.get(id)
+            item = Catalogo.query.get(id)
             db.session.delete(item)
             db.session.commit()
             return redirect(url_for('catalogo'))
-        
         #Incluindo novo registro
         if request.method =='POST':
-            novo_item = catalogo(request.form['item'], request.form['data'], request.form['valor'],request.form['ultima'])
-            db.sesseion.add(novo_item)
+            novo_item = Catalogo(request.form['item'], request.form['data'], request.form['valor'],request.form['ultima'])
+            db.session.add(novo_item)
             db.session.commit()
             return redirect(url_for('catalogo'))
         else:
-            #Armazenando em 'lista_itens' todos os registro da tabela catalogo
+            #Armazenando em 'itens_catalogo' todos os registro da tabela catalogo
             #Captura o valor de 'page' que foi passado pelo método GET
             #Define o padrão, valor 1 e Int
             page = request.args.get('page', 1, type=int)
@@ -112,13 +110,15 @@ def init_app(app):
             #Valor padrão de registro por página
             per_page=10
 
-            itens_page = catalogo.query.paginate(page=page, per_page=per_page)
-            return render_template('estoque.html', itens_catalogo=itens_page)
+            # itens_page = Catalogo.query.paginate(page=page, per_page=per_page)
+            # return render_template('catalogo.html', itenscatalogo=itens_page)
+            games_page = Catalogo.query.paginate(page=page, per_page=per_page)
+            return render_template('catalogo.html', gamesestoque=games_page)
         
     #Crud - Edição de Dados
     @app.route('/edit/<int:id>', methods=['GET','POST'])
     def edit(id):
-            g=catalogo.query.get(id)
+            g=Catalogo.query.get(id)
 
             #Editando o jogo com as informações do formulário
             if request.method =='POST':
