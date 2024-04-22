@@ -14,7 +14,7 @@ itens =[{'Item': 'Colar do Rei Salomão', 'Data': '11/03/2024', 'Valor':'150.000
 
 def init_app(app):
     #Função middleware para verificar a autenticação do usuário
-
+    @app.before_request
     def check_auth():
         routes = ['login', 'caduser', 'home']
         #Se a rota atual não requer autenticação, permite o acesso
