@@ -39,8 +39,8 @@
             <td>{{g.plataforma}}</td>
             <td>{{g.preco}}</td>
             <td>{{g.quantidade}}</td>
-            <td><a style="text-decoration: none; color: orange;" href="{{url_for('edit', id=g.id)}}">Editar</a></td>
-            <td><a style="text-decoration: none; color: red;" href="{{url_for('estoque', id=g.id)}}" onclick="return confirm('Deseja mesmo excluir o jogo?')">Excluir</a></td>
+            <!-- <td><a style="text-decoration: none; color: orange;" href="{{url_for('edit', id=g.id)}}">Editar</a></td>
+            <td><a style="text-decoration: none; color: red;" href="{{url_for('estoque', id=g.id)}}" onclick="return confirm('Deseja mesmo excluir o jogo?')">Excluir</a></td> -->
         </tr>
     {% endfor %}
     </tbody>

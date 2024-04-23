@@ -29,27 +29,13 @@ class Game():
     #método estático que não precisa criar uma instância do objeto
     @staticmethod
     def get_all():
-        return list(mongo.db.games.find())            
-    
-# Classe responsável por criar a entidade "usuário" e seus atributos no banco
+        return list(mongo.db.games.find())       
+         
+    @staticmethod
+    def delete(id):
+        mongo.db.delete_one({'_id': ObjectId(id)})
 
-class Usuario():    
-    def __init__(self, email, password):
-        self.email = email
-        self.password = password
-    
-    def save(self):
-        ({'email': self.email,
-        'password': self.password})
-        
 
-#Classe de imagens
 
-# class Imagem(db.Model):
-#     id= db.Column(db.Integer, primary_key=True)
-#     filename = db.Column(db.String(120), unique=True, nullable=False)
-    
-#     def __init__(self, filename):
-#         self.filename = filename
         
     

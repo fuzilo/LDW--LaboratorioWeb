@@ -1,40 +1,18 @@
-# Importando o Flask na aplicação
 from flask import Flask, render_template
 from controllers import routes
+from models.database import mongo, Game
 import pymysql
 
-from models.database import mongo, Game
-
-# Carregando o Flask na variável app
 app = Flask(__name__, template_folder='views')
 
-#Definindo o endereço do MongoDB
+
 
 app.config['MONGO_URI'] ='mongodb://localhost:27017/games'
 
-# Iniciando a função de rotas init_app passando o Flask como parâmetro
 routes.init_app(app)
 
-##Define o nome do banco de dados
 DB_NAME = 'games'
 app.config['DATABASE_NAME'] = DB_NAME
-
-# # Permite ler o diretório absoluto de um determinado arquivo
-# dir = os.path.abspath(os.path.dirname(__file__))
-
-
-
-## Definindo a Scret Key para as flashed messages
-app.config['SECRET_KEY'] = 'thegamessecret'
-
-# Define o tempo de duração da Sessão
-app.config['PERMANENT_SESSION_LIFETIME'] = 1800
-
-##Define a pasta que receberá arquivos de upload
-app.config['UPLOAD_FOLDER']='static/uploads'
-
-## Defininfo o tamano máximo de um arquivo de upload
-app.config['MAX_CONTENT_LENGHT']=16*1024*1024
 
 # Se for executado diretamente pelo interpretador (arquivo principal)
 if __name__ == '__main__': 
