@@ -3,7 +3,7 @@ from api import api
 from ..schemas import game_schemas
 from .. models import game_model
 from ..services import game_service
-from flask import make_response, jsonify
+from flask import make_response, jsonify, request
 
 
 class GameList(Resource):
