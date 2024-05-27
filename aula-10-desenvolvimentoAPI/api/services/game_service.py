@@ -28,3 +28,7 @@ def update_game(self, id):
                                       'descricao':self.descricao,
                                       'ano': self.ano
                                   }})
+
+@staticmethod
+def delete_game(id):
+    mongo.db.games.delete_one({'_id': ObjectId(id)})

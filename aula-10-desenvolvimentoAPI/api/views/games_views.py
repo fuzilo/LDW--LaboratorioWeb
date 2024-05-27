@@ -58,8 +58,13 @@ class GameDetails(Resource):
             game_service.update_game(new_game, id)
             updated_game = game_service.get_game_by_id(id)
             return make_response(g.jsonify(updated_game),200)
-                        
-        
+    
+    def delete(self, id):                    
+        game_bd = game_service.get_game_by_id(id)
+        if game_bd is None:
+            return make_response(jsonify("Game não encontrado"), 404)
+        game_service.delete_game(id)
+        return make_response(jsonify("Game escluído com sucesso!", 204))#NO CONTENT, indica que a requisição foi bem sucedida, mas não há conteúdo para ser exibido
         
         
         
